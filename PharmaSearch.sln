@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{80FD9A41-346E-4319-AB02-00497604CB63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Api", "src\PharmaSearch.Api\PharmaSearch.Api.csproj", "{15553D8B-7803-4489-B95C-87C666C5F4BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Application", "src\PharmaSearch.Application\PharmaSearch.Application.csproj", "{A5DC9145-BCCB-47C8-A6C1-9B96B3978306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Domain", "src\PharmaSearch.Domain\PharmaSearch.Domain.csproj", "{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Infrastructure.Elasticsearch", "src\PharmaSearch.Infrastructure.Elasticsearch\PharmaSearch.Infrastructure.Elasticsearch.csproj", "{811E9843-AFA8-44F9-992D-086A51009E71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Infrastructure.Mongo", "src\PharmaSearch.Infrastructure.Mongo\PharmaSearch.Infrastructure.Mongo.csproj", "{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Seeding", "src\PharmaSearch.Seeding\PharmaSearch.Seeding.csproj", "{FBDF9840-A052-471C-8826-C1A237338AE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5A132C3E-A38C-421F-BC03-798FC208FEAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.IntegrationTests", "tests\PharmaSearch.IntegrationTests\PharmaSearch.IntegrationTests.csproj", "{8EF69271-98B2-4047-8F18-687C27555EF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.UnitTests", "tests\PharmaSearch.UnitTests\PharmaSearch.UnitTests.csproj", "{1BB03C99-7E50-4489-820C-161ADBE2111E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{F5C3761E-3117-42A7-AD42-DFEA5676FDF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaSearch.Benchmarks", "benchmarks\PharmaSearch.Benchmarks\PharmaSearch.Benchmarks.csproj", "{AB1F3C7E-5242-4686-9F15-10468DFF5E48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15553D8B-7803-4489-B95C-87C666C5F4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15553D8B-7803-4489-B95C-87C666C5F4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15553D8B-7803-4489-B95C-87C666C5F4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15553D8B-7803-4489-B95C-87C666C5F4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5DC9145-BCCB-47C8-A6C1-9B96B3978306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DC9145-BCCB-47C8-A6C1-9B96B3978306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DC9145-BCCB-47C8-A6C1-9B96B3978306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5DC9145-BCCB-47C8-A6C1-9B96B3978306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811E9843-AFA8-44F9-992D-086A51009E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811E9843-AFA8-44F9-992D-086A51009E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811E9843-AFA8-44F9-992D-086A51009E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811E9843-AFA8-44F9-992D-086A51009E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDF9840-A052-471C-8826-C1A237338AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDF9840-A052-471C-8826-C1A237338AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDF9840-A052-471C-8826-C1A237338AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDF9840-A052-471C-8826-C1A237338AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF69271-98B2-4047-8F18-687C27555EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF69271-98B2-4047-8F18-687C27555EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF69271-98B2-4047-8F18-687C27555EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF69271-98B2-4047-8F18-687C27555EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB03C99-7E50-4489-820C-161ADBE2111E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB03C99-7E50-4489-820C-161ADBE2111E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB03C99-7E50-4489-820C-161ADBE2111E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB03C99-7E50-4489-820C-161ADBE2111E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB1F3C7E-5242-4686-9F15-10468DFF5E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB1F3C7E-5242-4686-9F15-10468DFF5E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB1F3C7E-5242-4686-9F15-10468DFF5E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB1F3C7E-5242-4686-9F15-10468DFF5E48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{15553D8B-7803-4489-B95C-87C666C5F4BD} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{A5DC9145-BCCB-47C8-A6C1-9B96B3978306} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{437F83E6-FCF5-4F00-A7FE-59C4AD2D1AC9} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{811E9843-AFA8-44F9-992D-086A51009E71} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{4164CF47-2ED8-4702-8BE2-2740AAEBC7A9} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{FBDF9840-A052-471C-8826-C1A237338AE2} = {80FD9A41-346E-4319-AB02-00497604CB63}
+		{8EF69271-98B2-4047-8F18-687C27555EF9} = {5A132C3E-A38C-421F-BC03-798FC208FEAF}
+		{1BB03C99-7E50-4489-820C-161ADBE2111E} = {5A132C3E-A38C-421F-BC03-798FC208FEAF}
+		{AB1F3C7E-5242-4686-9F15-10468DFF5E48} = {F5C3761E-3117-42A7-AD42-DFEA5676FDF6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,29 @@
+# Mesmos limites de memória para os dois lados: 1 GB de heap no Elasticsearch
+# e 1 GB de cache no MongoDB (WiredTiger). Uso local: docker compose up -d --wait
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: product-search-es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=5s' || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+
+  mongo:
+    image: mongo:7.0
+    container_name: product-search-mongo
+    command: ["--wiredTigerCacheSizeGB", "1"]
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 10s
+      retries: 30

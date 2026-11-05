@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Adaptador Elasticsearch usando a API REST via HttpClient + System.Text.Json.
+    Sem SDK de terceiros: a query DSL fica explícita no código, que é o ponto do estudo.
+  -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="PharmaSearch.UnitTests" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PharmaSearch.Application\PharmaSearch.Application.csproj" />
+  </ItemGroup>
+</Project>

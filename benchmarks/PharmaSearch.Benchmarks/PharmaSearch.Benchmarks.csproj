@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Optimize>true</Optimize>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PharmaSearch.Application\PharmaSearch.Application.csproj" />
+    <ProjectReference Include="..\..\src\PharmaSearch.Infrastructure.Elasticsearch\PharmaSearch.Infrastructure.Elasticsearch.csproj" />
+    <ProjectReference Include="..\..\src\PharmaSearch.Infrastructure.Mongo\PharmaSearch.Infrastructure.Mongo.csproj" />
+    <ProjectReference Include="..\..\src\PharmaSearch.Seeding\PharmaSearch.Seeding.csproj" />
+  </ItemGroup>
+</Project>

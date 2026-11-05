@@ -1,0 +1,102 @@
+name: search-benchmark
+# Build, testes, Elasticsearch + MongoDB reais, teste de carga e BenchmarkDotNet
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "results/**"
+      - "**.md"
+  workflow_dispatch:
+    inputs:
+      requests:
+        description: "Chamadas por cenário e motor"
+        default: "2000"
+      concurrency:
+        description: "Chamadas simultâneas"
+        default: "50"
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      Elasticsearch__Url: "http://localhost:9200"
+      Mongo__ConnectionString: "mongodb://localhost:27017"
+      CATALOG_SIZE: "100000"
+      REQUESTS: ${{ github.event.inputs.requests || '2000' }}
+      CONCURRENCY: ${{ github.event.inputs.concurrency || '50' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Subir Elasticsearch 8.15 e MongoDB 7.0 (1 GB de memória para cada)
+        run: docker compose up -d --wait
+
+      - name: Restore
+        run: dotnet restore PharmaSearch.sln
+
+      - name: Build
+        run: dotnet build PharmaSearch.sln -c Release --no-restore
+
+      - name: Testes de unidade (domínio, caso de uso, consulta e catálogo)
+        run: >
+          dotnet test tests/PharmaSearch.UnitTests -c Release --no-build
+          --logger "console;verbosity=normal" --logger "trx;LogFileName=unit.trx" --results-directory test-results
+
+      - name: Testes de integração (API + Elasticsearch + MongoDB reais)
+        run: >
+          dotnet test tests/PharmaSearch.IntegrationTests -c Release --no-build
+          --logger "console;verbosity=normal" --logger "trx;LogFileName=integration.trx" --results-directory test-results
+
+      - name: Teste de carga (${{ env.REQUESTS }} chamadas, ${{ env.CONCURRENCY }} simultâneas)
+        if: ${{ !cancelled() }}
+        run: >
+          dotnet run -c Release --no-build --project benchmarks/PharmaSearch.Benchmarks --
+          --load --requests "$REQUESTS" --concurrency "$CONCURRENCY" --out results/LOAD.md
+
+      - name: BenchmarkDotNet (latência e memória por chamada)
+        if: ${{ !cancelled() }}
+        run: >
+          dotnet run -c Release --no-build --project benchmarks/PharmaSearch.Benchmarks --
+          --filter '*' --exporters github --artifacts ./bdn
+
+      - name: Montar relatório
+        if: ${{ !cancelled() }}
+        run: |
+          python3 .github/scripts/test_summary.py test-results results/TESTS.md
+          {
+            echo "# Resultado do benchmark de busca: Elasticsearch vs MongoDB"
+            echo
+            echo "Gerado pelo GitHub Actions em $(date -u '+%Y-%m-%d %H:%M') UTC. Nenhum número foi editado à mão."
+            echo
+            sed 's/^# Teste de carga/## Teste de carga/' results/LOAD.md
+            echo
+            echo "## Latência por chamada, sem concorrência (BenchmarkDotNet)"
+            echo
+            sed -n '/^|/,$p' bdn/results/*-report-github.md
+            echo
+            sed 's/^# Testes automatizados/## Testes automatizados/' results/TESTS.md
+          } > results/BENCHMARK.md
+          cat results/BENCHMARK.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit results
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        run: |
+          git config user.name "LuisEduJulio"
+          git config user.email "luiseduardoer38@gmail.com"
+          git add results/
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(bench): resultados da busca Elasticsearch vs MongoDB [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main

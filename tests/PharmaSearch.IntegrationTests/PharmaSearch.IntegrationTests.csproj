@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Testes de integração: sobem a API em memória (WebApplicationFactory) e falam com
+    Elasticsearch e MongoDB reais. No GitHub Actions os dois rodam em containers.
+    Localmente: docker compose up -d
+  -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.10" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PharmaSearch.Api\PharmaSearch.Api.csproj" />
+    <ProjectReference Include="..\..\src\PharmaSearch.Seeding\PharmaSearch.Seeding.csproj" />
+  </ItemGroup>
+</Project>

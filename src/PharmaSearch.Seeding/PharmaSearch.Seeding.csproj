@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Gerador determinístico do catálogo e cenários de busca com gabarito (ground truth). -->
+  <ItemGroup>
+    <ProjectReference Include="..\PharmaSearch.Domain\PharmaSearch.Domain.csproj" />
+  </ItemGroup>
+</Project>

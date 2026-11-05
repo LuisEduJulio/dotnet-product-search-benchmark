@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <!-- Roda no runtime mais novo instalado quando o .NET 8 não está na máquina (o CI continua no 8). -->
+    <RollForward>Major</RollForward>
+  </PropertyGroup>
+</Project>
