@@ -31,8 +31,59 @@ Antes de medir, os testes de integração conferem que **os três motores devolv
 
 ## 🏆 Resultado
 
-Os números de cada execução ficam em [`results/BENCHMARK.md`](results/BENCHMARK.md): req/s, p50, p95 e p99,
-precisão e cobertura por cenário, tempo de indexação, latência do BenchmarkDotNet e o resumo dos testes.
+Catálogo de 100 mil produtos, 2.000 chamadas por cenário e motor, 50 simultâneas. Números do GitHub Actions
+(4 núcleos, .NET 8, Elasticsearch 8.15.3 e MongoDB 7.0.45 com 1 GB de memória cada).
+
+> **Números citados no post do LinkedIn:** execução de 05/11/2026 às 12:45 UTC, salva em
+> [`results/2026-11-05-1245-utc.md`](results/2026-11-05-1245-utc.md). Cada nova execução do pipeline atualiza
+> [`results/BENCHMARK.md`](results/BENCHMARK.md); os valores variam um pouco entre execuções (máquina compartilhada do
+> GitHub Actions), mas a ordem e a escala das diferenças se mantêm.
+
+### Acertou a resposta? (precisão nos 20 primeiros itens)
+
+| Cenário | Elasticsearch | MongoDB `$text` | MongoDB `$regex` |
+|---|---:|---:|---:|
+| `dipirona` | 100% | 100% | 100% |
+| `dipirona gotas` | 100% | 100% | 100% |
+| `acido acetilsalicilico` | 100% | 100% | 100% |
+| `dipirna` (erro de digitação) | **100%** | 0 itens | 0 itens |
+| `paracet` (autocomplete) | **100%** | 0 itens | 100% |
+| `vitamina c` + categoria | 100% | 100% | **45%** |
+| **Cenários 100% certos** | **6 de 6** | 4 de 6 | 4 de 6 |
+
+### Velocidade (requisições/s com 50 simultâneas)
+
+| Cenário | Elasticsearch | MongoDB `$text` | MongoDB `$regex` |
+|---|---:|---:|---:|
+| `dipirona` | 323 | 207 | 1.164 |
+| `dipirona gotas` | 285 | **48** | 839 |
+| `acido acetilsalicilico` | 188 | 182 | 1.630 |
+| `dipirna` | 630 | 6.856 (sem resultado) | **26** (sem resultado) |
+| `paracet` | 539 | 6.499 (sem resultado) | 2.015 |
+| `vitamina c` + categoria | 391 | 76 | 4.880 (45% certo) |
+
+Sem concorrência (BenchmarkDotNet), uma busca por `dipirona` levou 4,0 ms no Elasticsearch, 7,2 ms no `$text`
+e 1,3 ms no `$regex`.
+
+### Por que o `$regex` parece o mais rápido
+
+É efeito do `LIMIT 20`. O `$regex` lê produto por produto (`COLLSCAN`) e **para quando junta 20**. Para um termo
+comum como "dipirona" (cerca de 3% do catálogo), isso acontece depois de algumas centenas de documentos. Quando o
+termo não existe, ele precisa ler **os 100 mil**: `dipirna` caiu para 26 req/s, com p50 de 1,9 s, e ainda voltou
+vazio. E como não há nota de relevância, em `vitamina c` o "c" casou com qualquer palavra e só 45% dos itens eram
+Vitamina C.
+
+### Por que o `$text` cai com dois termos
+
+Para ordenar por `textScore`, o MongoDB precisa encontrar e pontuar **todos** os documentos que batem antes de
+devolver os 20 primeiros. Com "dipirona gotas" virando OU, entram todas as dipironas e todos os produtos em gotas:
+48 req/s. Quando o termo não existe, a busca no índice termina na hora (6.856 req/s), mas volta vazia.
+
+### Por que o Elasticsearch fica estável
+
+O custo foi pago na indexação: termos normalizados, prefixos já indexados e listas de documentos por termo. A
+consulta lê só as listas dos termos pesquisados e o Lucene mantém apenas os 20 melhores enquanto percorre. Foi o
+único com a resposta certa nos 6 cenários, entre 188 e 630 req/s.
 
 ## As estratégias
 
